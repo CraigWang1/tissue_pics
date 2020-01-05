@@ -1,0 +1,26 @@
+<annotation verified="yes">
+	<folder>Testing</folder>
+	<filename>IMG_1620.JPG</filename>
+	<path>/home/craig/AVBotz/Testing/IMG_1620.JPG</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>600</width>
+		<height>450</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>box</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>151</xmin>
+			<ymin>3</ymin>
+			<xmax>449</xmax>
+			<ymax>272</ymax>
+		</bndbox>
+	</object>
+</annotation>
