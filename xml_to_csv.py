@@ -4,7 +4,7 @@ Created on Sat Jan  4 17:43:32 2020
 
 @author: craig
 
-Python script to convert labelImg .xml files to 
+Python script to create a class_list.csv file and convert labelImg .xml files to 
 a .csv file that is compatible with this github's implementation of EfficientDet:
 https://github.com/tristandb/EfficientDet-PyTorch/
 
@@ -17,6 +17,7 @@ from lxml import etree
 import csv
 import os
 import argparse
+import pandas as pd
 
 
 # function to extract the values from the annotation .xml file
@@ -72,14 +73,32 @@ def iterate_and_write(img_folder_path, csv_path):
         #opens the file writer, so we are able to write on the file
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         
+        #iterates over the xml files, and adds the data to the csv file
         for filename in os.listdir(img_folder_path):
             if filename.endswith(".xml"):
-                annot_file = os.path.join(img_folder_path, filename)
-                filewriter.writerow(construct_row(annot_file))
+                xml_file = os.path.join(img_folder_path, filename)
+                filewriter.writerow(construct_row(xml_file))
 
+# a function to create a class_list csv file
+def find_and_write_classes(csv_path):
+    #preparing to save the file in the same directory as the train_annotations
+    directory = os.path.dirname(csv_path)
+    filename = "class_list.csv"
+    filepath = os.path.join(directory, filename) #makes new filepath for class_list.csv
+    
+    df = pd.read_csv(csv_path, header=None)  #read in the data
+    classes = list(df.iloc[:, 5].unique())            #gets all the classes in a list
+    with open(filepath, "w") as csvfile:
+        #opens the file writer so we can write to the file
+        filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        filewriter.writerow(classes)
+    
+    
+    
 # the final function, does it all
 # gets user img folder filepath, grabs the xml file data from the folder
 # gets user csv_file, writes the data extracted from the .xml files onto the csv_file
+# also creates a class_list.csv file and saves it in the same directory
 def main():
     parser = argparse.ArgumentParser(description="Extracting annotation data into .csv format.")
     parser.add_argument("--img_folder_path",
@@ -93,13 +112,12 @@ def main():
     iterate_and_write(img_folder_path=args.img_folder_path,
                       csv_path=args.csv_file)
     
-    print("Successful! \nCSV file saved at", args.csv_file)
+    find_and_write_classes(csv_path=args.csv_file)
+    
+    #print filepath of train annotations csv file
+    print("Successful! \nTrain annotations csv file saved at", args.csv_file)
+    #print filepath of class_list.csv
+    print("Class_list.csv saved at", os.path.join(os.path.dirname(args.csv_file), "class_list.csv"))
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
