@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Sat Jan  4 17:43:32 2020
@@ -20,6 +19,7 @@ import csv
 import os
 import argparse
 import pandas as pd
+from classes import Class_Value
 
 
 # function to extract the values from the annotation .xml file
@@ -96,12 +96,16 @@ def find_and_write_classes(csv_path):
     filepath = os.path.join(directory, filename) #makes new filepath for class_list.csv
     
     df = pd.read_csv(csv_path, header=None)  #read in the data
-    classes = list(df.iloc[:, 5].unique())            #gets all the classes in a list
-    with open(filepath, "w") as csvfile:
+    list_classes = list(df.iloc[:, 5].unique())            #gets all the classes in a list
+    
+    with open(filepath, "w") as csvfile:  #opens file to write
+        row = []
+        for aClass in list_classes:      #for every class, add the class and its value
+            row.extend([aClass, Class_Value.classes[aClass]])
+            
         #opens the file writer so we can write to the file
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        filewriter.writerow(classes)
-    
+        filewriter.writerow(row)
     
     
 # the final function, does it all
@@ -130,9 +134,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
