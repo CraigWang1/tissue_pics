@@ -1,0 +1,26 @@
+<annotation>
+	<folder>ImageSets</folder>
+	<filename>4.JPG</filename>
+	<path>/home/craig/data/VOCdevkit/VOC2007/ImageSets/4.JPG</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>box</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>137</xmin>
+			<ymin>10</ymin>
+			<xmax>377</xmax>
+			<ymax>358</ymax>
+		</bndbox>
+	</object>
+</annotation>
