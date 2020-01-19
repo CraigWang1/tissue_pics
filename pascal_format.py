@@ -44,6 +44,12 @@ parser.add_argument(
     default="(512, 512)",
     type=str,
 )
+parser.add_argument(
+    "--train_test_split",
+    help="Portion of images used for training expressed as a decimal (eg. 0.8)",
+    default=0.9,
+    type=int,
+)
 
 args = parser.parse_args()
 
@@ -92,21 +98,19 @@ def resize_and_save(voc, fnames):
             len(fnames), new_img_path))
 
 def write_train_test(voc, fnames):
-    #separate train and test
-    train_test_split = 0.8
-    num_imgs = len(fnames)
+    num_imgs = len(fnames)  #number of images in image directory
     
-    ix = int(train_test_split * num_imgs)  #training pics index
+    ix = int(args.train_test_split * num_imgs)  #training pics index
     
     print('\nWriting trainval filenames...')
     with open(os.path.join(voc, 'ImageSets/Main/trainval.txt'), 'a+') as f:
         for i in range(0, ix):
-            f.write('{}.{}'.format(str(i), args.ext) + '\n')   #writes the trainval files
+            f.write(str(i) + '\n')   #writes the trainval files
     
     print('Writing test filenames...')
     with open(os.path.join(voc, 'ImageSets/Main/test.txt'), 'a+') as f:
         for i in range(ix, num_imgs):
-            f.write('{}.{}'.format(str(i), args.ext) + '\n')    #writes the test files split, creates new line for next line
+            f.write(str(i) + '\n')    #writes the test files split, creates new line for next line
     
     print('\nDone!')
     print('Dataset saved at:', os.path.join(voc) + '\n')
