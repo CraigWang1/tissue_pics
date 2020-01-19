@@ -48,7 +48,7 @@ parser.add_argument(
     "--train_test_split",
     help="Portion of images used for training expressed as a decimal (eg. 0.8)",
     default=0.9,
-    type=int,
+    type=float,
 )
 
 args = parser.parse_args()
